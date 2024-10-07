@@ -2,9 +2,7 @@ import React from 'react'
 
 const allProperties = () => {
   return (
-    <div>
-      all properties
-    </div>
+    <h2>All Proetial</h2>
   )
 }
 
