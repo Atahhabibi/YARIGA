@@ -5,8 +5,17 @@ import {
   GlobalStyles,
   notificationProvider,
   ReadyPage,
-  RefineSnackbarProvider,
+  RefineSnackbarProvider
 } from "@pankod/refine-mui";
+
+import {
+  AccountCircleOutlined,
+  ChatBubbleOutline,
+  Dashboard,
+  PeopleAltOutlined,
+  StarOutlineRounded,
+  VillaOutlined
+} from "@mui/icons-material";
 
 import { MuiInferencer } from "@pankod/refine-inferencer/mui";
 import routerProvider from "@pankod/refine-react-router-v6";
@@ -15,8 +24,21 @@ import axios, { AxiosRequestConfig } from "axios";
 import { Header, Layout, Sider, Title } from "components/layout";
 import { ColorModeContextProvider } from "contexts";
 import { CredentialResponse } from "interfaces/google";
-import { Login } from "pages/login";
+import {
+  Home,
+  Agents,
+  MyProfile,
+  PropertyDetails,
+  AllProperties,
+  CreateProperty,
+  AgentProfile,
+  EditProperty,
+  Login
+} from "../src/pages";
+
+
 import { parseJwt } from "utils/parse-jwt";
+
 
 const axiosInstance = axios.create();
 axiosInstance.interceptors.request.use((request: AxiosRequestConfig) => {
@@ -25,7 +47,7 @@ axiosInstance.interceptors.request.use((request: AxiosRequestConfig) => {
     request.headers["Authorization"] = `Bearer ${token}`;
   } else {
     request.headers = {
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${token}`
     };
   }
 
@@ -42,7 +64,7 @@ function App() {
           "user",
           JSON.stringify({
             ...profileObj,
-            avatar: profileObj.picture,
+            avatar: profileObj.picture
           })
         );
       }
@@ -81,7 +103,7 @@ function App() {
       if (user) {
         return Promise.resolve(JSON.parse(user));
       }
-    },
+    }
   };
 
   return (
@@ -96,13 +118,33 @@ function App() {
           catchAll={<ErrorComponent />}
           resources={[
             {
-              name: "posts",
+              name: "property",
               list: MuiInferencer,
-              edit: MuiInferencer,
-              show: MuiInferencer,
-              create: MuiInferencer,
-              canDelete: true,
+              icon: <VillaOutlined />
             },
+            {
+              name: "agent",
+              list: MuiInferencer,
+              icon: <PeopleAltOutlined />
+            },
+            {
+              name: "review",
+              list: MuiInferencer,
+              icon: <StarOutlineRounded />
+            },
+            {
+              name: "messsage",
+              list: MuiInferencer,
+              icon: <ChatBubbleOutline />
+            },
+            {
+              name: "My-Profile",
+              list: MuiInferencer,
+              options: {
+                label: "My Profile"
+              },
+              icon: <AccountCircleOutlined />
+            }
           ]}
           Title={Title}
           Sider={Sider}
@@ -111,6 +153,7 @@ function App() {
           routerProvider={routerProvider}
           authProvider={authProvider}
           LoginPage={Login}
+          DashboardPage={Home}
         />
       </RefineSnackbarProvider>
     </ColorModeContextProvider>
