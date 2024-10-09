@@ -12,6 +12,7 @@ const CustomButton = ({
 }: CustomButtonProps) => {
   return (
     <Button
+      type={type === "submit" ? "submit" : "button"}
       sx={{
         flex: fullWidth ? 1 : "unset",
         padding: "10px 15px",
@@ -19,16 +20,15 @@ const CustomButton = ({
         minWidth: 130,
         backgroundColor,
         color,
-        fontSize:"16px",
-        fontWeight:600,
-        gap:"10px",
-        textTransform:"capitalize",
-        '&:hover':{
-          opacity:0.9,
+        fontSize: "16px",
+        fontWeight: 600,
+        gap: "10px",
+        textTransform: "capitalize",
+        "&:hover": {
+          opacity: 0.9,
           backgroundColor
         }
       }}
-
       onClick={handleClick}
     >
       {icon}

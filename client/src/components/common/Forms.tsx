@@ -25,10 +25,10 @@ const Forms = ({
 }: FormProps) => {
   return (
     <Box>
-      <Typography fontSize={25} fontWeight={700} color="#1142d">
+      <Typography fontSize={25} fontWeight={700} color="#00000921d">
         {type} a property
       </Typography>
-      <Box mt={2.5} borderRadius="15px" padding="20px" bgcolor="#fcfcfc">
+      <Box mt={2.5} borderRadius="15px" padding="20px" bgcolor="#eaeadf">
         <form
           style={{
             marginTop: "20px",

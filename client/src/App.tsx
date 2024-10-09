@@ -1,4 +1,5 @@
 import { AuthProvider, Refine } from "@pankod/refine-core";
+
 import {
   CssBaseline,
   ErrorComponent,
@@ -17,12 +18,10 @@ import {
   VillaOutlined
 } from "@mui/icons-material";
 
-import { MuiInferencer } from "@pankod/refine-inferencer/mui";
 import routerProvider from "@pankod/refine-react-router-v6";
 import dataProvider from "@pankod/refine-simple-rest";
 import axios, { AxiosRequestConfig } from "axios";
 import { Header, Layout, Sider, Title } from "components/layout";
-import { ColorModeContextProvider } from "contexts";
 import { CredentialResponse } from "interfaces/google";
 import {
   Home,
@@ -83,7 +82,6 @@ function App() {
           return Promise.reject();
         }
       }
-      
 
       localStorage.setItem("token", `${credential}`);
 
@@ -123,12 +121,12 @@ function App() {
   };
 
   return (
-    <ColorModeContextProvider>
+    <>
       <CssBaseline />
       <GlobalStyles styles={{ html: { WebkitFontSmoothing: "auto" } }} />
       <RefineSnackbarProvider>
         <Refine
-          dataProvider={dataProvider("https://api.fake-rest.refine.dev")}
+          dataProvider={dataProvider("http://localhost:8080/api/v1")}
           notificationProvider={notificationProvider}
           ReadyPage={ReadyPage}
           catchAll={<ErrorComponent />}
@@ -176,7 +174,7 @@ function App() {
           DashboardPage={Home}
         />
       </RefineSnackbarProvider>
-    </ColorModeContextProvider>
+    </>
   );
 }
 
