@@ -27,7 +27,7 @@ import {
   Home,
   Agents,
   MyProfile,
-  PropertyDetails,
+  PropertyDetail,
   AllProperties,
   CreateProperty,
   AgentProfile,
@@ -134,7 +134,7 @@ function App() {
             {
               name: "properties",
               list: AllProperties,
-              show: PropertyDetails,
+              show: PropertyDetail,
               create: CreateProperty,
               edit: EditProperty,
               icon: <VillaOutlined />
@@ -151,16 +151,14 @@ function App() {
               icon: <StarOutlineRounded />
             },
             {
-              name: "messsags",
+              name: "messages",
               list: Home,
               icon: <ChatBubbleOutline />
             },
             {
-              name: "My-Profile",
+              name: "my-profile",
+              options: { label: "My Profile " },
               list: MyProfile,
-              options: {
-                label: "My Profile"
-              },
               icon: <AccountCircleOutlined />
             }
           ]}

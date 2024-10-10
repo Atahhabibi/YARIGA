@@ -11,6 +11,7 @@ import {
 import { useNavigate } from "@pankod/refine-react-router-v6";
 
 import { PropertyCard, CustomButton } from "./../components";
+import { useMemo } from "react";
 
 const AllProperties = () => {
   const navigate = useNavigate();
@@ -27,6 +28,25 @@ const AllProperties = () => {
   } = useTable();
 
   const allProperties = data?.data ?? [];
+
+  const currentPrice = sorter.find((item) => item.field === "price")?.order;
+
+  const toggleSort = (field: string) => {
+    setSorter([{ field, order: currentPrice === "asc" ? "desc" : "asc" }]);
+  };
+
+  const currentFilterValues = useMemo(() => {
+    const logicalFilters = filters.flatMap((item) =>
+      "field" in item ? item : []
+    );
+
+    return {
+      title: logicalFilters.find((item) => item.field === "title")?.value || "",
+      propertyType:
+        logicalFilters.find((item) => item.field === "propertyType")?.value ||
+        ""
+    };
+  }, [filters]);
 
   if (isLoading) return <Typography>Loading.....</Typography>;
   if (isError) return <Typography>Error.....</Typography>;
@@ -53,8 +73,8 @@ const AllProperties = () => {
               mb={{ xs: "20px", sm: "0" }}
             >
               <CustomButton
-                title={`Sort Price`}
-                handleClick={() => {}}
+                title={`Sort Price ${currentPrice === "asc" ? " ↑" : "↓"}`}
+                handleClick={() => toggleSort("price")}
                 backgroundColor="#475be8"
                 color="#fcfcfc"
               />
@@ -62,8 +82,18 @@ const AllProperties = () => {
                 variant="outlined"
                 color="info"
                 placeholder="Search by title"
-                value=""
-                onChange={() => {}}
+                value={currentFilterValues.title}
+                onChange={(e) => {
+                  setFilters([
+                    {
+                      field: "title",
+                      operator: "contains",
+                      value: e.currentTarget.value
+                        ? e.currentTarget.value
+                        : undefined
+                    }
+                  ]);
+                }}
               />
               <Select
                 variant="outlined"
@@ -72,10 +102,33 @@ const AllProperties = () => {
                 required
                 inputProps={{ "aria-label": "without label" }}
                 defaultValue=""
-                value=""
-                onChange={() => {}}
+                value={currentFilterValues.propertyType}
+                onChange={(e) => {
+                  setFilters(
+                    [
+                      {
+                        field: "propertyType",
+                        operator: "eq",
+                        value: e.target.value
+                      }
+                    ],
+                    "replace"
+                  );
+                }}
               >
                 <MenuItem value="">All</MenuItem>
+                {[
+                  "Apartment",
+                  "Villa",
+                  "Farmhouse",
+                  "Condos",
+                  "studio",
+                  "chalet"
+                ].map((type) => (
+                  <MenuItem key={type} value={type.toLocaleLowerCase()}>
+                    {type}
+                  </MenuItem>
+                ))}
               </Select>
             </Box>
           </Box>
@@ -148,12 +201,16 @@ const AllProperties = () => {
             required
             inputProps={{ "aria-label": "without label" }}
             defaultValue={10}
-            value=""
-            onChange={() => {}}
+            onChange={(e) =>
+              setPageSize(e.target.value ? Number(e.target.value) : 10)
+            }
           >
-           {[10,20,30,40].map((size)=>(
-            <MenuItem key={size} value={size}> show {size}</MenuItem>
-           ))}
+            {[10, 20, 30, 40].map((size) => (
+              <MenuItem key={size} value={size}>
+                {" "}
+                show {size}
+              </MenuItem>
+            ))}
           </Select>
         </Box>
       )}
