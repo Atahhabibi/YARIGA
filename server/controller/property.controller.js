@@ -13,21 +13,49 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET
 });
 
-
-
-
 const getAllProperties = async (req, res) => {
+  const {
+    _end,
+    _order,
+    _start,
+    _sort,
+    title_like = "",
+    propertyType = ""
+  } = req.query;
+
+  const query = {};
+
+  // Set filters
+  if (propertyType !== "") {
+    query.propertyType = propertyType;
+  }
+
+  if (title_like) {
+    query.title = { $regex: title_like, $options: "i" };
+  }
 
   try {
-    const properties=await Property.find({}).limit(req.query._end); 
-    res.status(200).json(properties); 
+    const count = await Property.countDocuments(query); // Remove extra brackets around { query }
 
+    const propertiesQuery = Property.find(query)
+      .limit(_end ? parseInt(_end) : 10)
+      .skip(_start ? parseInt(_start) : 0);
+
+    // Only apply sorting if _sort and _order are present
+    if (_sort && _order) {
+      propertiesQuery.sort({ [_sort]: _order });
+    }
+
+    const properties = await propertiesQuery;
+
+    res.header("x-total-count", count);
+    res.header("Access-Control-Expose-Headers", "x-total-count");
+
+    res.status(200).json(properties);
   } catch (error) {
-     res.status(500).json({ message: error.message });
+    res.status(500).json({ message: error.message });
   }
 };
-
-
 
 const getPropertyDetail = async (req, res) => {};
 
@@ -63,8 +91,6 @@ const createProperty = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
-
-
 
 const updateProperty = async (req, res) => {};
 const deleteProperty = async (req, res) => {};
