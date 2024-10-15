@@ -30,9 +30,6 @@
 
 # Build and Deploy a Full Stack MERN Dashboard App With CRUD, Auth, and Charts Using Refine - Client App
 
-![app_cover](https://user-images.githubusercontent.com/18739364/218060209-b0119d40-5c9c-48d0-b96b-ec802816ab50.png)
-
-[Refer to the server app source code](https://github.com/refinedev/refine/tree/master/examples/mern-dashboard-server)
 
 With modern material design, a fully functional dashboard, a property management page, and a users page - both connected to our database and a profile page that connects the two, this video is the updated full-stack MERN course you’ve all been waiting for.
 
@@ -46,10 +43,7 @@ Alongside building this application, you'll learn how to use the most in-demand 
 6. Provide a quick and easy way for your users to log in and register using Google \*\*\*\*Auth
 7. And most importantly, you’ll learn how to build React-based CRUD applications incredibly quickly using refine.
 
-Developed by [@adrianhajdin](https://github.com/adrianhajdin) ([JavaScript Mastery](https://www.youtube.com/@javascriptmastery)).
-Launch your development career with project-based coaching - [JS Mastery Pro](https://www.jsmastery.pro)
 
-## Try this example on your local
 
 ```bash
 npm create refine-app@latest -- --example mern-dashboard-client
